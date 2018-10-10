@@ -13,7 +13,13 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+hypothesis = X * theta;
 
+mean_error_func = hypothesis - y;
+
+mean_error_func = mean_error_func .^2;
+
+J = (1/(2 * m)) * sum(mean_error_func);
 
 
 
