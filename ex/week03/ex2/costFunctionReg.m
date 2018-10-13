@@ -14,8 +14,29 @@ grad = zeros(size(theta));
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
-%               Compute the partial derivatives and set grad to the partial
+%               Compute the partial derivatives and set grad to the partialmb
 %               derivatives of the cost w.r.t. each parameter in theta
+
+thetaOExcluded = theta([2:size(theta,1)]);
+
+J = (
+        (1/m) * sum( 
+               (-y' * log(sigmoid(X * theta))) 
+                - 
+                 (
+                    (1-y') * log(1-sigmoid(X * theta)) 
+                  )
+                )
+             ) + (
+        (lambda / (2*m)) * sum(thetaOExcluded .^2)
+      )
+               ;
+
+% Calculate the gradient with regularization but exclude it for theta 0.
+gradientRegularization = (lambda/m) * theta;
+gradientRegularization(1) = 0;
+
+grad =  ( ( (1/m) .* X' * (sigmoid(X * theta) - y) ) + gradientRegularization )
 
 
 
