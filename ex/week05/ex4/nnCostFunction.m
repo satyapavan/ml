@@ -62,22 +62,47 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+y_matrix = eye(num_labels)(y,:);  ## without this the vales are coming very huge.
+
+a1 = [ones(m, 1), X];
+
+z2 = a1 * Theta1';
+a2 = [ones(m, 1), sigmoid(z2)];
+
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);  ## Important, there should not be any bias row here.
+
+hx = a3;
+
+## If we are not using elementwise multiplication below with log, then the results are coming very high.
+J = (1/m) * sum(sum( -y_matrix .* log(hx) - (1-y_matrix) .* log(1-hx) ));
+
+## By ignoring the bias entryt?
+
+regularization = (lambda / (2 * m)) * ( sum(sum(Theta1(:, 2:end) .^ 2 )) + sum(sum(Theta2(:, 2:end) .^ 2 )) );
 
 
+J = J + regularization;
 
 
+% Perform back propagation. Calculate the error and then the Delta.
+d3 = a3 - y_matrix;
+d2 = d3 * Theta2(:, 2:end) .* sigmoidGradient(z2);
+
+Delta1 = d2' * a1;
+Delta2 = d3' * a2;
+
+Theta1_grad = Delta1/m;
+Theta2_grad = Delta2/m;
 
 
-
-
-
-
-
-
-
-
-
-
+% Add regularization to the gradients
+Theta1_r = Theta1;
+Theta1_r(:,1) = 0; ## This is for for j = 0
+Theta2_r = Theta2;
+Theta2_r(:,1) = 0;  ## this is for for j = 0
+Theta1_grad = Theta1_grad + (lambda/m) * Theta1_r;
+Theta2_grad = Theta2_grad + (lambda/m) * Theta2_r;
 
 
 % -------------------------------------------------------------
