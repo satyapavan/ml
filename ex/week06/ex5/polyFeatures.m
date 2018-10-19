@@ -15,7 +15,16 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
+% Non vectorized
+% for i = 1:p
+%   X_poly(:,i) = X .^ i;
+% end
 
+
+% This is why matrix mode of operations are beautiful, absolutely BEAUTIFUL!!
+% Vectorized implementation
+P = [1:p];
+X_poly = X .^ P;
 
 
 
