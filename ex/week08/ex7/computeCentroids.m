@@ -26,7 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+for i = 1:K
+   i_cluster_entries = X(idx == i, :);
+   [row col] = size(i_cluster_entries)
+   sum(i_cluster_entries)
+   centroids(i, :) = (1/row) .* sum(i_cluster_entries)
+   
+   % Or else just say,
+   %   centroids(i, :) = mean(X(idx == i, :));
 
+end
 
 
 

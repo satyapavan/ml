@@ -21,6 +21,21 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+m = size(X,1);
+
+for itrM = 1:m
+  closest_distance = Inf;
+  current_sample = X(itrM,:);
+  % Find the closest centroid
+  for itrCentroid = 1:K
+      current_centroid = centroids(itrCentroid,:);
+      distance = sum((current_sample - current_centroid).^2);
+      if distance < closest_distance
+        closest_distance = distance;
+        idx(itrM,1) = itrCentroid;
+      end
+  end
+end
 
 
 
